@@ -1,0 +1,20 @@
+* formulation?
+
+For a 2D Pareto front \([[x_1, y_1], \ldots, [x_n, y_n]]\) sorted by \(x\), with reference point \([ref_x, ref_y]\):
+
+\[
+HV = (x_1 - x_1) \cdot (ref_y - ref_y) + \sum_{i=1}^{n-1} (x_{i+1} - x_i) \cdot (ref_y - y_i) + (ref_x - x_n) \cdot (ref_y - y_n)
+\]
+
+- **First term is zero** (degenerate).
+- **Simplified:**
+
+\[
+HV = \sum_{i=1}^{n-1} (x_{i+1} - x_i) \cdot (ref_y - y_i) + (ref_x - x_n) \cdot (ref_y - y_n)
+\]
+
+---
+
+1. The first term \((x_1 - x_1) \cdot (ref_y - ref_y)\) simplifies to zero because \(x_1 - x_1 = 0\).
+2. The corrected formula uses \(x_{i+1} - x_i\) (not \(x_i + 1 - x_i\)) for the width of each hypervolume segment.
+3. The last term accounts for the unbounded region beyond \(x_n\) up to \(ref_x\).

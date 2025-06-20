@@ -6,7 +6,7 @@ ns = [10,20,30]
 for n in ns:
     data = moea_pymoo.main(
         number_of_servers=n,
-        number_of_moea_gen=100,
+        number_of_moea_gen=200,
         path_to_saved_result="./records/moea_{n}_servers_front.npy",
     )
     path = f"./records/moea_{n}_servers.json"

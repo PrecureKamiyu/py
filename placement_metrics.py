@@ -1,6 +1,9 @@
 import pandas as pd
 
 
+# servers is a list of location
+# a location is a two tuple: fst is lat and snd is lon
+# lat is for lattitute and lon is for longitute
 def calculate_access_delay(servers, block_counts):
     lat = block_counts['lat_block']
     lon = block_counts['lon_block']
@@ -16,7 +19,7 @@ def calculate_access_delay(servers, block_counts):
             min_distance = min(min_distance, distance)
         total_distance += min_distance * counts[i]
     average_delay = total_distance / counts.sum()
-    return average_delay
+    return average_delay * 20
 
 
 def calculate_workload_balance(servers, block_counts):
@@ -40,20 +43,30 @@ def calculate_workload_balance(servers, block_counts):
         server_workloads[closed_server] += counts[i]
 
     num_servers = len(server_workloads)
-    server_workloads = server_workloads * num_servers / sum_counts
 
     mean_workload = sum(server_workloads) / num_servers
-    variance_sum = sum((w - mean_workload) ** 2 for w in server_workloads)
-    balance = (variance_sum / num_servers) ** 0.5
+    server_workloads = server_workloads / mean_workload
+
+    # variance_sum = sum((w - mean_workload) ** 2 for w in server_workloads)
+    # balance = (variance_sum / num_servers) ** 0.5
+
+    # NOTE: the new one
+    variance_sum = sum(abs(w - 1) for w in server_workloads)
+    balance = variance_sum / num_servers
     return balance
 
 
 def main():
     df = pd.read_csv('./shanghai_dataset/block_counts.csv')
     lst = \
-        [[ 22.5613, 117.8482],
-         [ 40.4374, 122.4555],
-         [ 32.2719, 112.0363]]
+        [[0.22, 0.117],
+         [0.40, 0.122],
+         [0.32, 0.112]]
+
+    lst = \
+        [[0.22, 0.117],
+         [0.40, 0.122]]
+
     result = calculate_access_delay(lst, df)
     print(f"result is {result}")
     result = calculate_workload_balance(lst, df)

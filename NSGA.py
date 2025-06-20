@@ -60,6 +60,8 @@ def main():
     plt.legend()
     plt.show()
 
+    print([ind[0] for ind in pareto_front])
+
 
 def main_and_save(path):
     random.seed(42)
@@ -80,6 +82,7 @@ def main_and_save(path):
     # Extract the Pareto front
     pareto_front = tools.sortNondominated(result, len(result), first_front_only=True)[0]
 
+
     # Plot the Pareto front
     plt.scatter([ind.fitness.values[0] for ind in pareto_front],
                 [ind.fitness.values[1] for ind in pareto_front],
@@ -90,6 +93,7 @@ def main_and_save(path):
     plt.legend()
     plt.savefig(path)
     plt.close()
+
 
 
 if __name__ == "__main__":

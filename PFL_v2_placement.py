@@ -85,10 +85,13 @@ def cosine_similarity_loss(objective_values, preference):
 # Training function for Scalable Pareto Front Approximation
 
 
-def train_scalable_pareto_front(objectives=None, input_dim=1, output_dim=1):
-    # !
-    # Hyperparameters
-    # input_dim
+# returns a dictionary
+def train_scalable_pareto_front(
+        objectives=None,
+        input_dim=1,            # what is the meaning of this shit
+        output_dim=1,
+        num_epochs=5000):
+
     preference_dim = len(objectives)
     hidden_dim = 10 * input_dim
     num_epochs = 5000
@@ -138,7 +141,7 @@ def train_scalable_pareto_front(objectives=None, input_dim=1, output_dim=1):
     print("Training complete.")
     return {
         'pareto_points': pareto_points,
-        'solution_points': solution_points
+        'solution_points': solutions_points
     }
 
 # Visualize the Pareto front

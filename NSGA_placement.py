@@ -9,10 +9,10 @@ from placement_metrics import calculate_access_delay, calculate_workload_balance
 # PROBLEM CONFIGURATION
 # ======================
 VECTOR_DIM = 4      # Dimension of input vector (n)
-LOW_BOUND = 0     # Minimum value for vector components
-UP_BOUND = 2       # Maximum value for vector components
+LOW_BOUND = 0       # Minimum value for vector components
+UP_BOUND = 1        # Maximum value for vector components
 POP_SIZE = 100      # Population size
-NGEN = 100          # Number of generations
+NGEN = 10           # Number of generations
 CXPB = 0.9          # Crossover probability
 MUTPB = 0.1         # Mutation probability
 
@@ -54,8 +54,6 @@ def evaluate(vector):
     v = v.reshape(-1,2)
     f1 = calculate_workload_balance(v, df)
     f2 = calculate_access_delay(v, df)
-    # f1 = sum(x**2 for x in vector)                   # Objective 1
-    # f2 = sum(abs(x - 1) for x in vector)            # Objective 2
     return f1, f2
 
 # ======================
@@ -95,8 +93,16 @@ def run_optimization():
         verbose=True
     )
 
+
     # Extract Pareto front
     pareto_front = tools.sortNondominated(result, len(result), first_front_only=True)[0]
+    df = {
+        "solutions": [ind[0] for ind in pareto_front],
+        "obj1values": [ind.fitness.values[0] for ind in pareto_front],
+        "obj2values": [ind.fitness.values[1] for ind in pareto_front]
+    }
+    df = pd.DataFrame(df)
+    df.to_csv('NSGA_test1.csv', index=False)
 
     # ======================
     # VISUALIZATION
@@ -113,7 +119,8 @@ def run_optimization():
     plt.legend()
     plt.grid(True)
     plt.savefig("fig/NSGA_placement.png")
-    plt.show()
+    # don't show for now
+    # plt.show()
 
     # ======================
     # RESULTS ANALYSIS
@@ -133,3 +140,4 @@ if __name__ == "__main__":
     pareto_front, logbook = run_optimization()
     front = np.array(pareto_front)
     np.save('placement_front1.npy', front)
+    np.savetxt('NSGA_front1.csv', front, delimiter=',')

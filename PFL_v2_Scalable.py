@@ -131,6 +131,7 @@ def plot_pareto_front(pareto_points):
 
 # Run training and plot results
 if __name__ == "__main__":
+    # this is for testing
     custom_objectives = [
         QuadraticObjective1(),
         QuadraticObjective2()

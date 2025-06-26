@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from placement_metrics import calculate_access_delay, calculate_workload_balance
+from placement_metrics import calculate_access_delay, calculate_workload_balance, calculate_access_delay_prime
 from pymoo.core.problem import Problem
 
 df = \
@@ -71,6 +71,21 @@ class PlacementProblem10(Problem):
         out["F"] = [fst, snd]
 
 
+class PlacementProblemNprime(Problem):
+
+    def __init__(self, number_of_servers=5):
+        super().__init__(n_var=2 * number_of_servers,
+                         n_obj=2,
+                         n_ieq_constr=0,
+                         xl=0.0,
+                         xu=1.0)
+
+    def _evaluate(self, x, out, *args, **kwargs):
+        fst = [calculate_workload_balance(np.array(y).reshape(-1,2), df) for y in x]
+        # NOTICE:
+        snd = [calculate_access_delay_prime(np.array(y).reshape(-1,2), df) for y in x]
+        out["F"] = [fst, snd]
+
 class PlacementProblemN(Problem):
 
     def __init__(self, number_of_servers=5):
@@ -82,6 +97,7 @@ class PlacementProblemN(Problem):
 
     def _evaluate(self, x, out, *args, **kwargs):
         fst = [calculate_workload_balance(np.array(y).reshape(-1,2), df) for y in x]
+        # NOTICE:
         snd = [calculate_access_delay(np.array(y).reshape(-1,2), df) for y in x]
         out["F"] = [fst, snd]
 

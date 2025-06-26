@@ -1,9 +1,22 @@
 # * Parameter and setting
+import argparse
+parser = argparse.ArgumentParser(description="mip main program")
+parser.add_argument("n", help="the number of servers you want to place")
+parser.add_argument(
+    "--N",
+    default=160,
+    help="the number of the possible locations that are randomly chosen.",
+)
+parser.add_argument(
+    "--locations",
+    default=False,
+    help="if locations will be randomly chosen again",
+)
+args = parser.parse_args()
+n = int(args.n)
+N = int(args.N)
 
-n = 10
-N = 80
-option_if_regenerate_locations = True
-# option_if_regenerate_locations = False
+option_if_regenerate_locations = bool(args.locations)
 number_of_servers = n
 experiment_name = f"_testing_n{n}_N{N}"
 

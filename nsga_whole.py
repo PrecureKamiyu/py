@@ -6,7 +6,7 @@ if __name__ == "__main__":
     for n in ns:
         data = nsga_pymoo.main(
             number_of_servers=n,
-            number_of_generation=40,
+            number_of_generation=20,
         )
         path = f"./records/nsga_{n}_servers.json"
         with open(path, 'w') as js_file:

@@ -1,6 +1,18 @@
 import pandas as pd
 import numpy as py
+import argparse
 
+# * argparse
+
+parser = argparse.ArgumentParser(description="A simple program.")
+parser.add_argument(
+    "--base",
+    default="10",  # Default value if not provided
+    help="The base"
+)
+
+args = parser.parse_args()
+base = int(args.base)
 csv_path = 'data_0601_to_0615.csv'
 
 # * processing
@@ -36,12 +48,15 @@ df = df[
     (df['lat'] < 1) & (df['lat'] >= 0) & \
     (df['lon'] < 1) & (df['lon'] >= 0)
 ]
-df['lat'] = df['lat'] * 10
-df['lon'] = df['lon'] * 10
+df['lat'] = df['lat'] * base
+df['lon'] = df['lon'] * base
 # I seperate them because I thought there
 # was some mysterious bug, but now I have
 # no interests in verify the existence of the bug
+#
+# as you know
 # if it ain't broke don't fix it
+#
 df['lat'] = df['lat'].map(int)
 df['lon'] = df['lon'].map(int)
 
@@ -55,7 +70,7 @@ df['user_id'] = codes
 
 # ** find the corresponding block (where there is a base station)
 
-df['bs_id_adhoc'] = df['lat'] + df['lon'] * 10
+df['bs_id_adhoc'] = df['lat'] + df['lon'] * base
 
 # * just some printing
 print(df['arrival time'])

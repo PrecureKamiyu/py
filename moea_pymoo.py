@@ -3,7 +3,7 @@ from pymoo.optimize import minimize
 from pymoo.util.ref_dirs import get_reference_directions
 from pymoo.visualization.scatter import Scatter
 
-from problem_in_pymoo import PlacementProblemN
+from problem_in_pymoo import PlacementProblemN, PlacementProblemNprime
 
 
 def main(
@@ -16,7 +16,7 @@ def main(
     print("Number of servers", number_of_servers)
     print("Number of generation", number_of_moea_gen)
     print("Path to saved result:", path_to_saved_result)
-    problem = PlacementProblemN(number_of_servers)
+    problem = PlacementProblemNprime(number_of_servers)
     ref_directions = get_reference_directions("uniform", 2, n_partitions=12)
     algorithm = MOEAD(
         ref_directions,

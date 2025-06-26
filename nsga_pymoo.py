@@ -8,7 +8,7 @@
 import numpy as np
 from pymoo.algorithms.moo.nsga2 import NSGA2
 from pymoo.optimize import minimize
-from problem_in_pymoo import PlacementProblemN
+from problem_in_pymoo import PlacementProblemN, PlacementProblemNprime
 # from pymoo.visualization.scatter import Scatter
 
 def main(
@@ -19,7 +19,7 @@ def main(
     print("Number of servers", number_of_servers)
     print("Number of generation", number_of_generation)
     print("Path to saved result:", path_to_saved_result)
-    problem = PlacementProblemN(number_of_servers)
+    problem = PlacementProblemNprime(number_of_servers)
     algorithm = NSGA2(pop_size=200)
     res = minimize(problem,         #
                    algorithm,       #

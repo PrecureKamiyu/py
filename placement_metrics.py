@@ -1,4 +1,8 @@
+import math
+import random
 import pandas as pd
+import numpy as np
+
 
 
 # servers is a list of location
@@ -54,6 +58,39 @@ def calculate_workload_balance(servers, block_counts):
     variance_sum = sum(abs(w - 1) for w in server_workloads)
     balance = variance_sum / num_servers
     return balance
+
+# servers is a list of location
+# a location is a two tuple: fst is lat and snd is lon
+# lat is for lattitute and lon is for longitute
+def calculate_access_delay_prime(
+        server_locations,                # list of servers locations
+        block_counts,           # this shit is just data frame
+        neighbor_size=3,
+):
+    lat = block_counts['lat_block']
+    lon = block_counts['lon_block']
+    lat = np.array(lat)
+    lon = np.array(lon)
+    block_locations = np.column_stack((lat, lon))
+    number_of_blocks = len(lat)
+    number_of_servers = len(server_locations)
+    counts = block_counts['count']
+
+    # server first is lat
+    # server second is lon
+    distances = np.zeros(number_of_servers)
+    for b_idx in range(number_of_blocks):
+        lst = [math.dist(block_locations[b_idx], server_location) for server_location in server_locations]
+        for server_index, distance in enumerate(lst):
+            if distance < math.sqrt(1 / number_of_servers):
+                distances[server_index] += distance * counts[b_idx]
+    for i in range(len(distances)):
+        if distances[i] < 1000:
+            distances[i] += 10000000
+    # print(distances)
+
+    average_delay = sum(distances) / counts.sum()
+    return average_delay * 200
 
 
 def main():

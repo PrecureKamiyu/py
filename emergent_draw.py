@@ -38,16 +38,10 @@ def main(
 
 def draw_delay():
     ns = [10, 20, 30]
-    delays_mip = [
-        26.046,
-        35.065,
-        50.203,
-    ]
-    delays_proposed = [
-        21.799,
-        29.61,
-        29.218,
-    ]
+    # delays_mip = [26.046, 35.065, 50.203,]
+    # delays_proposed = [21.799, 29.61, 29.218,]
+    delays_mip      = [71.167, 66.105, 53.768]
+    delays_proposed = [41.767, 44.36 , 35.634]
     main(
         categories=ns,
         categories_name="Number of servers",
@@ -61,16 +55,10 @@ def draw_delay():
 
 def draw_balance():
     ns = [10, 20, 30]
-    balance_proposed = [
-        0.628,
-        1.021,
-        0.990,
-    ]
-    balance_mip = [
-        0.849,
-        1.14,
-        1.370,
-    ]
+    # balance_proposed = [0.628, 1.021, 0.990,]
+    # balance_mip = [0.849, 1.14, 1.370,]
+    balance_proposed = [0.693, 1.05, 1.029,]
+    balance_mip =      [0.864, 1.207, 1.363,]
     main(
         categories=ns,
         categories_name="Number of servers",
